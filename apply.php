@@ -92,13 +92,13 @@ $jobRef = isset($_GET['jobRef']) ? $_GET['jobRef'] : '';
         </fieldset>
         <br>
 
-        <label for="otherSkillsText">Other Skills (if applicable):</label>
+        <label for="    ">Other Skills (if applicable):</label>
         <textarea id="otherSkillsText" name="otherSkillsText"></textarea>
         <br>
 
         <button type="submit">Apply</button>
     </form>
-    
+
     <script>
         document.addEventListener("DOMContentLoaded", function() {
             const jobReferenceInput = document.getElementById("jobReference");

@@ -80,19 +80,19 @@ if (!$searchResults) {
             <h2>EOI Results</h2>
                 <table>
                 <tr>
-                    <th>Job Reference</th>
                     <th>EOI_ID</th>
-                    <th>Last Name</th>
+                    <th>Job Reference</th>
                     <th>First Name</th>
+                    <th>Last Name</th>
                     <th>Status</th>
                 </tr>
                 <?php
                 while ($row = $searchResults->fetch_assoc()) {
                     echo "<tr>";
-                    echo "<td>" . $row['jobReference'] . "</td>";
                     echo "<td>" . $row['id'] . "</td>";
-                    echo "<td>" . $row['lastName'] . "</td>";
+                    echo "<td>" . $row['jobReference'] . "</td>";
                     echo "<td>" . $row['firstName'] . "</td>";
+                    echo "<td>" . $row['lastName'] . "</td>";
                     echo "<td>" . $row['status'] . "</td>";            
                     echo "</tr>";
                 }

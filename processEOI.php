@@ -1,4 +1,6 @@
 <?php
+include 'header.inc.php'; // Include Header 
+
 include 'settings.php';
 
 if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
@@ -19,6 +21,7 @@ function createTableIfNotExist() {
         postcode VARCHAR(4),
         email VARCHAR(50),
         phone VARCHAR(12),
+        skills VARCHAR(100) NOT NULL,
         otherSkills TEXT,
         status VARCHAR(10) DEFAULT 'New'
     )";
@@ -38,6 +41,8 @@ function sanitizeInput($data) {
     return $data;
 }
 
+// echo sanitizeInput($_POST['skills']);
+
 $jobReference = sanitizeInput($_POST['jobReference']);
 $firstName = sanitizeInput($_POST['firstName']);
 $lastName = sanitizeInput($_POST['lastName']);
@@ -49,11 +54,10 @@ $state = sanitizeInput($_POST['state']);
 $postcode = sanitizeInput($_POST['postcode']);
 $email = sanitizeInput($_POST['email']);
 $phone = sanitizeInput($_POST['phone']);
+// $skills = sanitizeInput($_POST['skills']);
 $otherSkills = sanitizeInput($_POST['otherSkillsText']);
 
 $errorMessages = [];
-
-
 // Job reference number validation
 if (strlen($jobReference) != 5 || !ctype_alnum($jobReference)) {
     $errorMessages[] = "Job reference number must be exactly 5 alphanumeric characters.";
@@ -112,9 +116,17 @@ if (strlen($phone) < 8 || strlen($phone) > 12 || !preg_match("/^[0-9 ]*$/", $pho
 }
 
 // Check if other skills checkbox is selected but text is empty
-if (isset($_POST['skills']) && in_array('Other skills...', $_POST['skills']) && empty($otherSkills)) {
-    $errorMessages[] = 'Please provide details for Other skills.';
-}
+    if (isset($_POST['skills']) && is_array($_POST['skills'])) {
+        $skills = $_POST['skills'];
+        $skillsString = implode(', ', $skills);
+    } else {
+        $skills = array();
+        $skillsString = "";
+    }
+
+    if(in_array("Other skills...", $skills) && empty($otherSkills)) {
+        $errorMessages[] = "Please enter your Other Skill.";
+    }
 
 if (count($errorMessages) > 0) {
     foreach ($errorMessages as $error) {
@@ -123,14 +135,15 @@ if (count($errorMessages) > 0) {
     exit;
 }
 
-$query = "INSERT INTO EOI (jobReference, firstName, lastName, address, suburb, state, postcode, email, phone, otherSkills, status) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, 'New')";
+
+$query = "INSERT INTO EOI (jobReference, firstName, lastName, dob, address, suburb, state, postcode, email, phone, skills, otherSkills, status) VALUES ('$jobReference', '$firstName', '$lastName', '$mysqlFormattedDOB', '$address', '$suburb', '$state', '$postcode', '$email', '$phone', '$skillsString', '$otherSkills', 'New')";
 $stmt = $conn->prepare($query);
 
 if (!$stmt) {
     die("Prepare failed: (" . $conn->errno . ") " . $conn->error);
 }
 
-$stmt->bind_param("ssssssssss", $jobReference, $firstName, $lastName, $address, $suburb, $state, $postcode, $email, $phone, $otherSkills);
+// $stmt->bind_param("ssssssssssss", $jobReference, $firstName, $lastName, $mysqlFormattedDOB, $address, $suburb, $state, $postcode, $email, $phone, $skillsString, $otherSkills);
 $stmt->execute();
 
 if ($stmt->affected_rows > 0) {

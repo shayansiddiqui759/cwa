@@ -23,6 +23,7 @@ $sql = "CREATE TABLE IF NOT EXISTS EOI (
     postcode CHAR(4) NOT NULL,
     email VARCHAR(100) NOT NULL,
     phone VARCHAR(12) NOT NULL,
+    skills VARCHAR(100) NOT NULL,
     otherSkills TEXT,
     status VARCHAR(20) DEFAULT 'New'
 )";
