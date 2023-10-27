@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html>
+<head>
+<link type="text/css" rel="stylesheet" href="./styles/style.css"/>
+</head>
+<body>
+
+    <div class="main-section2">
+        <aside2>
+            <!-- Search by Applicant Form -->
+            <form method="post" class="search-form">
+                <h2>Search EOIs by Applicant</h2>
+                <input type="text" name="first_name" placeholder="First Name">
+                <input type="text" name="last_name" placeholder="Last Name">
+                <input type="submit" name="search_applicant" value="Search">
+            </form>
+            <!-- Update Status Form -->
+            <form method="post">
+                <h2>Update EOI Status</h2>
+                <input type="number" name="eoi_id" placeholder="EOI ID">
+                <select name="new_status">
+                    <option value="New">New</option>
+                    <option value="Processing">Processing</option>
+                    <option value="Closed">Closed</option>
+                </select>
+                <input type="submit" name="update_status" value="Update Status">
+            </form>
+        
+            <!-- Delete EOI Form -->
+            <form method="post">
+                <h2>Delete EOIs</h2>
+                <input type="text" name="job_ref_to_delete" placeholder="Job Reference Number">
+                <input type="submit" name="delete_eoi" value="Delete EOIs">
+            </form>
+
+        </aside2>
+         <!-- Displaying EOIs -->
+        <section class="job-description2">
+            <h2>EOI Results</h2>
+                <table>
+                <tr>
+                    <th>EOI_ID</th>
+                    <th>Job Reference</th>
+                    <th>First Name</th>
+                    <th>Last Name</th>
+                    <th>Status</th>
+                </tr>
+            </table>
+            <form method="post">
+                <input type="submit" name="list_all" value="List All EOIs">
+            </form>
+        </section>
+    </div>
+
+</body>
+</html>
